@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# microCMS Markdown Editor
+microCMSの拡張フィールドを利用したmarkdown入稿環境を構築するためのEditorです。
+microCMS公式のこちらを参考に構築しています。
 
-## Getting Started
+[microCMSの拡張フィールドを利用したMarkdownの入稿環境をつくる](https://blog.microcms.io/field-extension-markdown-editor/)
 
-First, run the development server:
+記事内の公式APIパッケージでうまく作動しなかったため、iframeでの通信はマニュアルを元に実装しています。
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+https://document.microcms.io/manual/field-extension
+
+# 起動方法
+`.env`ファイルを以下コマンドでコピーし、自身のAPIオリジンを入力
+```sh
+cp .env.local.sample .env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+npmで起動
+```sh
+npm run dev
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# microCMSとの連携
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+microCMS上で次の操作を行う
+1. API設定>APIスキーマ>フィールドを追加
+2. フィールドID, 表示名は好みの値を設定する
+3. 種類は「拡張フィールド」とし、拡張フィールドの読み込み先URLを`http://localhost:3000`とする
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+以上でmicroCMS上で本アプリケーションが読み込まれ、入力したmarkdownがAPIに載る
