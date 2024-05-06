@@ -12,6 +12,7 @@ type Message<T> = {
 type UseMicroCmsReturns<T> = {
   iframeId: string
   data: T | undefined
+  message: Message<T> | undefined
   sendMessage: (message: Message<T>) => void
 }
 
@@ -19,14 +20,15 @@ const origin = process.env.NEXT_PUBLIC_MICROCMS_ORIGIN || ""
 
 export const useMicroCms = <T>(): UseMicroCmsReturns<T> => {
   const [iframeId, setIframeId] = useState<string>("")
-  const [data, setData] = useState<T | undefined>()
+  const [message, setMessage] = useState<Message<T> | undefined>()
+  const data = message?.data
 
   const listener = useCallback((event: MessageEvent) => {
     if (!event.isTrusted) return
     if (event.data.action === "MICROCMS_GET_DEFAULT_DATA") {
       setIframeId(event.data.id)
       if (event.data.message) {
-        setData(event.data.message.data)
+        setMessage(event.data.message)
       }
     }
   }, [])
@@ -55,7 +57,7 @@ export const useMicroCms = <T>(): UseMicroCmsReturns<T> => {
 
   const sendMessage = useCallback(
     (message: Message<T>) => {
-      setData(message.data)
+      setMessage(message)
       window.parent.postMessage(
         {
           id: iframeId,
@@ -71,5 +73,5 @@ export const useMicroCms = <T>(): UseMicroCmsReturns<T> => {
     [iframeId],
   )
 
-  return { iframeId, data, sendMessage }
+  return { iframeId, data, message, sendMessage }
 }
