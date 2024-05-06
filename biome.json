@@ -32,6 +32,9 @@
       "recommended": true,
       "correctness": {
         "noUnusedImports": "error"
+      },
+      "complexity": {
+        "noForEach": "off"
       }
     }
   }
